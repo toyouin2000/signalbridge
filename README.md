@@ -121,7 +121,9 @@ flowchart TD
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ System Architecture 
+
+![SignalBridge Architecture](docs/images/signalbridge-architecture.png)
 
 SignalBridge uses a modular architecture consisting of the frontend, backend, database, CRM integration, and Meta integration layers.
 
