@@ -1,0 +1,21 @@
+
+{
+  "uid": "signalbridge_hubspot_webhooks",
+  "type": "webhooks",
+  "config": {
+    "settings": {
+      "targetUrl": "https://scroll-backing-shakiness.ngrok-free.dev/api/webhooks/hubspot",
+      "maxConcurrentRequests": 10
+    },
+    "subscriptions": {
+      "crmObjects": [
+        {
+          "subscriptionType": "object.propertyChange",
+          "objectType": "contact",
+          "propertyName": "hs_lead_status",
+          "active": true
+        }
+      ]
+    }
+  }
+}
