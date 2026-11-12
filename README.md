@@ -1,25 +1,33 @@
 # SignalBridge 🚀
+
 ### Bridging CRM Data with Meta Conversions API
 
-**SignalBridge** is a CRM-to-Meta integration platform designed to connect CRM systems with Meta's Conversions API (CAPI), enabling businesses to synchronize lead lifecycle events and send meaningful conversion signals back to Meta.
+SignalBridge is a CRM-to-Meta integration platform that connects CRM systems with Meta's Conversions API (CAPI), enabling businesses to synchronize lead lifecycle events and send meaningful conversion signals back to Meta.
 
-It helps businesses close the gap between lead generation and actual business outcomes by connecting CRM data with Meta's advertising ecosystem.
+It bridges the gap between lead generation and actual business outcomes by connecting CRM data with Meta's advertising ecosystem.
 
-[![Next.js](https://img.shields.io/badge/Next.js-TypeScript-black?logo=next.js)](https://nextjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-Backend-green?logo=node.js)](https://nodejs.org/)
-[![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?logo=supabase)](https://supabase.com/)
-[![Meta](https://img.shields.io/badge/Integration-Meta%20CAPI-0866FF?logo=meta)](https://developers.facebook.com/docs/marketing-api/conversions-api/)
+<p align="center">
+  <img src="docs/images/signalbridge-architecture.png" alt="SignalBridge System Architecture" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-Frontend-black?logo=next.js" alt="Next.js">
+  <img src="https://img.shields.io/badge/Node.js-Backend-green?logo=node.js" alt="Node.js">
+  <img src="https://img.shields.io/badge/TypeScript-Language-blue?logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase" alt="Supabase">
+  <img src="https://img.shields.io/badge/Meta-Conversions%20API-0866FF?logo=meta" alt="Meta">
+</p>
 
 ---
 
-## 📌 Table of Contents
+## 📑 Table of Contents
 
 - [Overview](#-overview)
 - [The Problem](#-the-problem)
 - [How SignalBridge Works](#-how-signalbridge-works)
 - [System Architecture](#-system-architecture)
 - [Core Features](#-core-features)
-- [Integration Workflow](#-integration-workflow)
+- [Integration Workflows](#-integration-workflows)
 - [Technology Stack](#-technology-stack)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
@@ -27,12 +35,15 @@ It helps businesses close the gap between lead generation and actual business ou
 - [CRM Event Processing](#-crm-event-processing)
 - [Security and Reliability](#-security-and-reliability)
 - [Future Enhancements](#-future-enhancements)
+- [Author](#-author)
 
 ---
 
 ## 🎯 Overview
 
-Modern businesses generate leads through advertising platforms such as Facebook and Instagram. However, a lead's journey doesn't end when a form is submitted.
+Modern businesses generate leads through advertising platforms such as Facebook and Instagram.
+
+However, a lead's journey doesn't end when a form is submitted.
 
 A lead may subsequently become:
 
@@ -43,9 +54,9 @@ A lead may subsequently become:
 
 These lifecycle events are typically stored in CRM platforms such as HubSpot.
 
-SignalBridge connects this CRM lifecycle information to Meta, allowing businesses to send downstream conversion events through Meta's Conversions API.
+SignalBridge connects CRM lifecycle information to Meta, allowing businesses to send downstream conversion events through Meta's Conversions API.
 
-### The big picture
+### The Big Picture
 
 ```mermaid
 flowchart LR
@@ -54,8 +65,8 @@ flowchart LR
     C --> D["Meta Conversions API"]
     D --> E["Meta Ads Optimization"]
 
-    style C fill:#14532d,color:#fff,stroke:#22c55e
-    style E fill:#1877F2,color:#fff,stroke:#1877F2
+    style C fill:#14532d,color:#ffffff
+    style E fill:#1877F2,color:#ffffff
 ```
 
 **The goal:** Transform raw lead generation data into actionable conversion signals.
@@ -80,20 +91,20 @@ Consider this example:
 
 Without CRM feedback, advertising platforms have limited visibility into what happens after lead acquisition.
 
-### How SignalBridge solves this
+### How SignalBridge Solves This
 
 1. Connect the CRM with SignalBridge.
 2. Retrieve and process lead lifecycle information.
 3. Identify relevant status changes.
 4. Map CRM statuses to Meta conversion events.
 5. Send conversion events to Meta CAPI.
-6. Allow Meta to use eligible conversion signals for campaign optimization.
+6. Enable Meta to use eligible conversion signals for campaign optimization.
 
 ---
 
 ## 🔄 How SignalBridge Works
 
-The platform follows a simple integration pipeline.
+SignalBridge follows a CRM synchronization and event delivery pipeline.
 
 ```mermaid
 flowchart TD
@@ -102,30 +113,51 @@ flowchart TD
     C --> D["Fetch CRM Leads"]
     D --> E["Read Lead Lifecycle Status"]
     E --> F{"Status Changed?"}
+
     F -->|No| G["Skip Event"]
     F -->|Yes| H["Map CRM Status to Meta Event"]
+
     H --> I["Normalize and Hash User Data"]
     I --> J["Build CAPI Payload"]
     J --> K["Send Event to Meta"]
+
     K --> L{"API Successful?"}
+
     L -->|Yes| M["Log Successful Delivery"]
     L -->|No| N["Record Error and Retry"]
+
     N --> K
     M --> O(["Complete"])
     G --> O
 
-    style B fill:#334155,color:#fff
-    style H fill:#14532d,color:#fff
-    style K fill:#1877F2,color:#fff
+    style B fill:#334155,color:#ffffff
+    style H fill:#14532d,color:#ffffff
+    style K fill:#1877F2,color:#ffffff
 ```
+
+### Processing Steps
+
+| Step | Description |
+|---|---|
+| 1. Connect | Authorize HubSpot using OAuth 2.0 |
+| 2. Synchronize | Retrieve CRM leads and lifecycle information |
+| 3. Detect | Identify relevant status changes |
+| 4. Transform | Map CRM statuses to Meta events |
+| 5. Process | Normalize and hash customer identifiers |
+| 6. Deliver | Send conversion events to Meta CAPI |
+| 7. Monitor | Record delivery results and failures |
 
 ---
 
-## 🏗️ System Architecture 
+## 🏗️ System Architecture
+
+SignalBridge uses a modular architecture consisting of four major layers.
+
+### Architecture Diagram
 
 ![SignalBridge Architecture](docs/images/signalbridge-architecture.png)
 
-SignalBridge uses a modular architecture consisting of the frontend, backend, database, CRM integration, and Meta integration layers.
+### Architecture Overview
 
 ```mermaid
 flowchart TB
@@ -134,18 +166,18 @@ flowchart TB
         WIZARD["Integration Setup Wizard"]
     end
 
-    subgraph BACKEND["Application Layer"]
-        API["Node.js / TypeScript API"]
+    subgraph APP["Application Layer"]
+        API["Node.js TypeScript API"]
         AUTH["OAuth Manager"]
         SYNC["CRM Sync Engine"]
         EVENT["Event Processing Engine"]
-        RETRY["Retry and Error Handler"]
+        RETRY["Retry Handler"]
     end
 
     subgraph DATA["Data Layer"]
-        DB[("Supabase / PostgreSQL")]
+        DB[("Supabase PostgreSQL")]
         LOG["Event and Sync Logs"]
-        CRED["Encrypted Integration Credentials"]
+        CRED["Integration Credentials"]
     end
 
     subgraph EXTERNAL["External Integrations"]
@@ -167,13 +199,13 @@ flowchart TB
     EVENT --> LOG
     AUTH --> CRED
 
-    style CLIENT fill:#172554,color:#fff
-    style BACKEND fill:#14532d,color:#fff
-    style DATA fill:#334155,color:#fff
-    style EXTERNAL fill:#1e3a8a,color:#fff
+    style CLIENT fill:#172554,color:#ffffff
+    style APP fill:#14532d,color:#ffffff
+    style DATA fill:#334155,color:#ffffff
+    style EXTERNAL fill:#1e3a8a,color:#ffffff
 ```
 
-### Architecture responsibilities
+### Architecture Responsibilities
 
 | Component | Responsibility |
 |---|---|
@@ -182,7 +214,7 @@ flowchart TB
 | OAuth Manager | Secure CRM authorization |
 | CRM Sync Engine | Retrieves and synchronizes lead data |
 | Event Processor | Maps CRM changes into Meta events |
-| Supabase | Persistent storage |
+| Supabase | Persistent data storage |
 | Retry Handler | Handles transient API failures |
 | Logging | Tracks synchronization and delivery outcomes |
 
@@ -195,7 +227,7 @@ flowchart TB
 Connect HubSpot using OAuth 2.0.
 
 - Secure authorization.
-- Access token management.
+- Access and refresh token management.
 - CRM lead retrieval.
 - Lead lifecycle synchronization.
 
@@ -214,7 +246,7 @@ Send CRM conversion events to Meta.
 Track the progression of leads throughout the sales funnel.
 
 ```mermaid
-flowchart LR
+flowchart TD
     A["New"] --> B["Contacted"]
     B --> C["Qualified"]
     C --> D["Converted"]
@@ -222,23 +254,23 @@ flowchart LR
     B --> E["Disqualified"]
     C --> E
 
-    style D fill:#166534,color:#fff
-    style E fill:#991b1b,color:#fff
+    style D fill:#166534,color:#ffffff
+    style E fill:#991b1b,color:#ffffff
 ```
 
 ### 4. Event Processing
 
 SignalBridge converts CRM lifecycle updates into standardized Meta event payloads.
 
-Example mapping:
+Example event mapping:
 
 | CRM Status | Meta Event |
 |---|---|
 | Qualified | QualifiedLead |
-| Converted | Purchase / custom conversion event |
+| Converted | Purchase or configured custom event |
 | Other lifecycle stages | Configurable custom events |
 
-Event mapping should be configurable according to the advertiser's Meta dataset and optimization requirements.
+Event mapping should be configurable according to the advertiser's dataset and optimization requirements.
 
 ### 5. Monitoring and Error Handling
 
@@ -250,28 +282,32 @@ Event mapping should be configurable according to the advertiser's Meta dataset 
 
 ---
 
-## 🔌 Integration Workflow
+## 🔌 Integration Workflows
 
-### HubSpot OAuth Integration
+### 1. HubSpot OAuth Integration
+
+OAuth 2.0 enables users to securely authorize SignalBridge to access their HubSpot CRM.
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant S as SignalBridge
-    participant H as HubSpot
+    actor User
+    participant SB as SignalBridge
+    participant HS as HubSpot
 
-    U->>S: Click Connect HubSpot
-    S->>H: Redirect to OAuth Authorization
-    H->>U: Request Permissions
-    U->>H: Approve Access
-    H->>S: Authorization Code
-    S->>H: Exchange Code for Tokens
-    H-->>S: Access and Refresh Tokens
-    S->>S: Securely Store Credentials
-    S-->>U: HubSpot Connected
+    User->>SB: Click Connect HubSpot
+    SB->>HS: Redirect to OAuth Authorization
+    HS->>User: Request Permissions
+    User->>HS: Approve Access
+    HS->>SB: Authorization Code
+    SB->>HS: Exchange Code for Tokens
+    HS-->>SB: Access and Refresh Tokens
+    SB->>SB: Store Credentials Securely
+    SB-->>User: HubSpot Connected
 ```
 
-### Meta CAPI Integration
+### 2. Meta CAPI Integration
+
+Once a relevant CRM lifecycle update is detected, SignalBridge processes the event and delivers it to Meta.
 
 ```mermaid
 sequenceDiagram
@@ -310,7 +346,7 @@ sequenceDiagram
 
 ## 📁 Project Structure
 
-The following is a suggested logical organization; adjust it to match the actual repository.
+The following is a suggested logical organization. Update it to reflect the actual repository structure.
 
 ```text
 signalbridge/
@@ -336,7 +372,8 @@ signalbridge/
 │   └── package.json
 │
 ├── docs/
-│   └── architecture.md
+│   └── images/
+│       └── signalbridge-architecture.png
 │
 ├── .env.example
 ├── .gitignore
@@ -359,7 +396,7 @@ Before running SignalBridge, ensure you have:
 - Meta Business Portfolio
 - Meta Events Manager dataset
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/toyouin2000/signalbridge.git
@@ -367,29 +404,31 @@ git clone https://github.com/toyouin2000/signalbridge.git
 cd signalbridge
 ```
 
-### 2. Install dependencies
+### 2. Install Dependencies
 
-Install dependencies in the relevant frontend and backend directories.
+For a project organized into separate frontend and backend directories:
 
 ```bash
 cd frontend
 npm install
 ```
 
+In another terminal:
+
 ```bash
-cd ../backend
+cd backend
 npm install
 ```
 
-Adjust these commands if your actual repository uses a monorepo or a different directory structure.
+If your repository uses a single Next.js application or a different monorepo structure, install dependencies using its root `package.json` instead.
 
-### 3. Configure environment variables
+### 3. Configure Environment Variables
 
-Create `.env` files for the respective applications.
+Create the required `.env` files in the relevant application directories.
 
-Refer to the Environment Variables section below.
+Refer to the environment variable section below.
 
-### 4. Start the application
+### 4. Start the Application
 
 Frontend:
 
@@ -405,7 +444,9 @@ cd backend
 npm run dev
 ```
 
-### 5. Open the application
+The actual startup commands depend on the scripts defined in your `package.json` files.
+
+### 5. Access the Application
 
 ```text
 Frontend: http://localhost:3000
@@ -442,7 +483,7 @@ META_CRM_ACCESS_TOKEN=
 NEXT_PUBLIC_API_URL=
 ```
 
-**Security recommendations:**
+### Security Recommendations
 
 - Never commit `.env` files.
 - Keep Meta access tokens on the backend.
@@ -450,12 +491,13 @@ NEXT_PUBLIC_API_URL=
 - Encrypt OAuth credentials at rest.
 - Use HTTPS for production OAuth redirects.
 - Rotate credentials if they are exposed.
+- Validate OAuth state parameters to prevent CSRF attacks.
 
 ---
 
 ## 📊 CRM Event Processing
 
-A typical CRM conversion event contains:
+A typical CRM conversion event contains the following fields:
 
 | Field | Description |
 |---|---|
@@ -486,13 +528,15 @@ A typical CRM conversion event contains:
 }
 ```
 
-The timestamp and customer data above are illustrative. Production events should use the actual CRM conversion timestamp and correctly normalized, SHA-256-hashed customer identifiers.
+The example is illustrative. Production events should use the actual CRM conversion timestamp and correctly normalized, SHA-256-hashed customer identifiers.
+
+The event name, action source, and required fields must comply with the selected Meta integration and API requirements.
 
 ---
 
 ## 🛡️ Security and Reliability
 
-SignalBridge is designed around the following engineering principles:
+SignalBridge follows these engineering principles:
 
 | Principle | Implementation |
 |---|---|
@@ -504,7 +548,7 @@ SignalBridge is designed around the following engineering principles:
 | Data Integrity | Event identifiers and duplicate prevention |
 | Scalability | Modular integration architecture |
 
-### Important reliability considerations
+### Reliability Considerations
 
 - Use idempotency controls to avoid duplicate conversion events.
 - Respect Meta API rate limits.
@@ -512,6 +556,7 @@ SignalBridge is designed around the following engineering principles:
 - Avoid retrying permanent validation errors.
 - Store event delivery status for troubleshooting.
 - Use least-privilege CRM permissions.
+- Securely handle OAuth token refresh and expiration.
 
 ---
 
@@ -525,7 +570,7 @@ SignalBridge is designed around the following engineering principles:
 - [ ] Dead-letter queue for failed events.
 - [ ] Webhook-based real-time synchronization.
 - [ ] Multi-tenant organization management.
-- [ ] Event match quality monitoring.
+- [ ] Event Match Quality monitoring.
 - [ ] Integration health monitoring.
 
 ---
@@ -546,10 +591,11 @@ By connecting lead acquisition data with actual business outcomes, businesses ca
 
 Product Engineer | Full-Stack Developer | AI & Integration Systems
 
-GitHub: [@toyouin2000](https://github.com/toyouin2000)
-
-Project: [SignalBridge](https://github.com/toyouin2000/signalbridge)
+- GitHub: [@toyouin2000](https://github.com/toyouin2000)
+- Project: [SignalBridge](https://github.com/toyouin2000/signalbridge)
 
 ---
 
-⭐ If you find this project interesting, consider giving the repository a star!
+<p align="center">
+  <strong>⭐ If you find this project interesting, consider giving the repository a star!</strong>
+</p>
